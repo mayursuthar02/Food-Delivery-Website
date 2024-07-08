@@ -37,7 +37,7 @@ MealSprint | Food Delivery Website
 - Cors
 - Mongoose
 - Cookie-Parser
-
+- Body Parser
 
 
 + MongoDB Models :
