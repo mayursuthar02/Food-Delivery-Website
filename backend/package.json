@@ -21,6 +21,9 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.5",
-    "stripe": "^16.2.0"
+    "otp-agent": "^3.0.3",
+    "otp-generator": "^4.0.1",
+    "stripe": "^16.2.0",
+    "twilio": "^5.2.2"
   }
 }

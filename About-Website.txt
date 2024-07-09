@@ -18,6 +18,7 @@ MealSprint | Food Delivery Website
 - Date-Fns   // For Date Formating
 - Stripe   // For payment Intigration
 - React Icon   // For Icons
+- Recoil    //For state manage
 
 + Cloudinary API : // for image uploading
 
@@ -38,7 +39,6 @@ MealSprint | Food Delivery Website
 - Mongoose
 - Cookie-Parser
 - Body Parser
-- Twilio
 
 
 + MongoDB Models :
@@ -52,7 +52,7 @@ MealSprint | Food Delivery Website
     - Role || Default - General
     - Address
     - Phone No
-    - Favourite
+    - favourite
     - opt
     - otpExpireDate
 
