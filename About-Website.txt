@@ -38,13 +38,14 @@ MealSprint | Food Delivery Website
 - Mongoose
 - Cookie-Parser
 - Body Parser
+- Twilio
 
 
 + MongoDB Models :
 -----------------------
 
 [ User ] : 
-    - username
+    - fullName
     - email
     - password
     - profilePic
@@ -52,6 +53,8 @@ MealSprint | Food Delivery Website
     - Address
     - Phone No
     - Favourite
+    - opt
+    - otpExpireDate
 
 
 [ Food ] :
