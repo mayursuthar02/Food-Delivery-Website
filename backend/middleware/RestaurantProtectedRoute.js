@@ -6,6 +6,7 @@ const RestaurantProtectedRoute = async(req,res,next) => {
         const token = req.cookies['restaurant-token'];
         if (!token) return res.status(401).json({error: "Unauthorized"});
 
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const restaurant = await restaurantModel.findOne({_id:decoded.restaurantId}).select("-password");
         req.restaurant = restaurant;

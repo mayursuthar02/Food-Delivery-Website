@@ -1,18 +1,18 @@
 import { 
     Box, Button, Flex, FormControl, FormLabel, HStack, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, 
     ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Stack, Text, Textarea } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { LuUploadCloud } from "react-icons/lu";
 import { SmallCloseIcon } from "@chakra-ui/icons";  
   
 import useShowToast from "../hooks/useShowToast";
 import usePriviewImg from "../hooks/usePriviewImg";
-import FetchMenuItems from "../hooks/FetchMenuItems";
 import { categoryList } from "../helpers/categorysList";
+import FetchMenuItems from "../hooks/FetchMenuItems";
   
 
-  const UploadFoodItem = ({isOpen,onClose}) => {
+  const UpdateFoodItem = ({isOpen, onClose, item}) => {
     const fileRef = useRef();
     const {handleImageChange, imgUrl, setImgUrl} = usePriviewImg();
     const showToast = useShowToast();
@@ -27,6 +27,19 @@ import { categoryList } from "../helpers/categorysList";
     const [availability, setAvailability] = useState('1');
     const [description, setDescription] = useState('');
 
+    useEffect(() => {
+        if (item) {
+            setItemName(item.itemName);
+            setImgUrl(item.image);
+            setCategory(item.category);
+            setPrice(item.price);
+            setIsVeg(item.isVeg == true ? '1' : '2');
+            setAvailability(item.availability == true ? '1' : '2');
+            setDescription(item.description);
+        }
+    }, [item]);
+
+
     // Handle Submit Item
     const handleSubmit = async() => {
       if(!itemName || !category || !price || !isVeg || !availability || !description || !imgUrl) {
@@ -37,8 +50,8 @@ import { categoryList } from "../helpers/categorysList";
       setIsLoading(true);
 
       try {
-        const response = await fetch('/api/menu-items/upload-items', {
-          method: "POST",
+        const response = await fetch(`/api/menu-items/update-item/${item._id}`, {
+          method: "PUT",
           headers: {"Content-Type":"application/json"},
           body: JSON.stringify({itemName, category, price, isVeg, availability, description, image: imgUrl})
         });
@@ -47,7 +60,7 @@ import { categoryList } from "../helpers/categorysList";
           showToast("Error", data.error, "error");
           return;
         }
-        showToast("Success", "Item uploaded", "success");
+        showToast("Success", "Item updated", "success");
         fetchMenuItemsData();
         onClose();
       } catch (error) {
@@ -58,13 +71,14 @@ import { categoryList } from "../helpers/categorysList";
 
     }
 
+    
 
     return (
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={'6xl'} motionPreset='slideInBottom'>
         <ModalOverlay />
   
         <ModalContent>
-          <ModalHeader>Item Details</ModalHeader>
+          <ModalHeader>Update Item Details</ModalHeader>
           <ModalCloseButton />
           
           <ModalBody display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={5}>
@@ -151,7 +165,7 @@ import { categoryList } from "../helpers/categorysList";
           </ModalBody>
   
           <ModalFooter>
-            <Button colorScheme="green" mr={3} isLoading={isLoading} onClick={handleSubmit}>Upload Item</Button>
+            <Button colorScheme="green" mr={3} isLoading={isLoading} onClick={handleSubmit}>Update Item</Button>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
           
@@ -160,5 +174,5 @@ import { categoryList } from "../helpers/categorysList";
     );
   };
   
-  export default UploadFoodItem
+  export default UpdateFoodItem
   

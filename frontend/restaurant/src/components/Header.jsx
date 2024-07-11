@@ -12,9 +12,36 @@ import { GiBeachBag } from "react-icons/gi";
 import {useRecoilState} from 'recoil';
 import userAtom from '../atoms/userAtom';
 
+import useShowToast from '../hooks/useShowToast';
+
 const Header = () => {
   const [user, setUser] = useRecoilState(userAtom);
+  const showToast = useShowToast();
+  const navigate = useNavigate();
   
+  // Handle Logout
+  const handleLogout = async() => {
+    try {
+      const res = await fetch('/api/restaurant/logout', {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        showToast('Error', data.error, "error");
+        return;
+      }
+      console.log(data);
+      showToast('Success', "Logged out", "success");
+      localStorage.removeItem('restaurant-user-details');
+      setUser(null);
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <header>  
       <Flex alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #eee'} px={'40px'} py={'15px'}>
@@ -42,8 +69,8 @@ const Header = () => {
 
                   {user && (
                     <Flex flexDir={'column'} justifyContent={'center'}>
-                      <Link as={RouterLink} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>Profile</Link>
-                      <Link as={RouterLink} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>My Order</Link>
+                      <Link as={RouterLink} to={'/dashboard/profile'} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>Profile</Link>
+                      <Link as={RouterLink} to={'/dashboard/my-order'} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>My Order</Link>
                     </Flex>
                   )}
 
@@ -53,7 +80,7 @@ const Header = () => {
 
                   {user && <Divider mb={2}/>}
 
-                  {user && <Button w={'full'} colorScheme='gray'>Logout</Button>}
+                  {user && <Button w={'full'} colorScheme='gray' onClick={handleLogout}>Logout</Button>}
                 </Flex>
               </MenuList>
             </Menu>

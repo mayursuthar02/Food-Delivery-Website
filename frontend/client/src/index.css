@@ -31,3 +31,9 @@ html {
     top: 0;
   }
 }
+
+
+/* Hide Scroll Bar */
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}

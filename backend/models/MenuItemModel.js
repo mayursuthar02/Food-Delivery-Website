@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
-    name: {
+const menuItemSchema = new mongoose.Schema({
+    itemName: {
         type: String,
         required: true
     },
     description: {
         type: String,
-        default: ""
+        required: true,
     },
     price: {
         type: Number,
@@ -17,9 +17,9 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    images: {
+    image: {
         type: String,
-        required: true,
+        default: "",
     },
     availability : {
         type: Boolean,
@@ -29,6 +29,10 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    deliveryTime : {
+        type: String,
+        default: '23min'
+    },
     reviews: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Review',
@@ -37,10 +41,11 @@ const ProductSchema = new mongoose.Schema({
     restaurantId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant',
+        required: true
     },
 }, {
     timestamps: true
 });
 
-const productModel = mongoose.model('Product', ProductSchema);
-export default productModel;
+const menuItemModel = mongoose.model('MenuItem', menuItemSchema);
+export default menuItemModel;

@@ -104,3 +104,14 @@ export const UpdateRestaurantProfile = async(req,res) => {
         res.status(500).json({error: "Error in update restaurant "+error.message});
     }
 }
+
+
+export const logout = async(req,res) => {
+    try {
+        res.cookie("restaurant-token", "", { maxAge: 1 });
+        res.status(200).json({message: "Restaurant User logged out."});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in logout"+error.message});
+    }
+}

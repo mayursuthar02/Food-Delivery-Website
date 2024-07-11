@@ -15,7 +15,7 @@ import userAtom from '../atoms/userAtom';
 // Navbar Links
 const navLinks = [
   {label: "Home", path: '/'},
-  {label: "Recipes", path: '/'},
+  {label: "Recipes", path: '/recipes'},
   {label: "Contact", path: '/'},
   {label: "About Us", path: '/'},
 ]
@@ -28,7 +28,7 @@ const Header = () => {
   return (
     <header>  
       <Flex alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #eee'} px={'40px'} py={'15px'}>
-        <Link as={RouterLink}>
+        <Link to={'/'} as={RouterLink}>
           <Logo/>
         </Link>
 
@@ -68,8 +68,8 @@ const Header = () => {
 
                   {user && (
                     <Flex flexDir={'column'} justifyContent={'center'}>
-                      <Link as={RouterLink} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>Profile</Link>
-                      <Link as={RouterLink} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>My Order</Link>
+                      <Link as={RouterLink} to={'/user/profile'} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>Profile</Link>
+                      <Link as={RouterLink} to={'/user/my-order'} mx={-2} px={5} py={2} borderRadius={'md'} _hover={{bgColor: "green.50", color: "green.400"}}>My Order</Link>
                     </Flex>
                   )}
 

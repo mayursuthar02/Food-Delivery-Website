@@ -1,9 +1,11 @@
 import React from 'react'
-import {Avatar, Badge, Box, Button, Divider, Flex, Grid, Image, Text} from '@chakra-ui/react';
+import {Avatar, Badge, Box, Button, Divider, Flex, Grid, Image, Link, Text} from '@chakra-ui/react';
+import {Link as RouterLink} from 'react-router-dom';
 
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import { IoStar } from "react-icons/io5";
+import { LuClock8 } from "react-icons/lu";
 
 import foodImg from '../assets/img/burger.jpg';
 
@@ -47,6 +49,20 @@ const ItemsDetailsPage = () => {
                     <Text>VEG</Text>
                 </Flex>
             </Flex>
+
+            <Flex align={'center'} gap={2} mt={5}>
+                <Text fontSize={'15px'} fontWeight={'500'} color={'gray.500'}>Delivery time :</Text>
+                <Flex align={'center'} gap={1} fontSize={'15px'} fontWeight={'500'} color={'green.500'}>
+                    <LuClock8/>
+                    <Text>20min</Text>
+                </Flex>
+            </Flex>
+
+            <Divider borderColor={'gray.200'} my={5}/>
+            
+            <Text fontSize={'15px'} color={'gray.500'}>Restaurant :</Text>
+            <Link as={RouterLink} fontSize={'25px'} fontWeight={'500'}>Sizzling Salsa Belliza</Link>
+            <Text fontSize={'15px'} color={'gray.500'}>Street City state</Text>
         </Box>
 
         <Box w={'500px'} mt={10}>

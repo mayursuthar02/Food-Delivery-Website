@@ -4,11 +4,13 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import {v2 as cloudinary} from 'cloudinary';
 
+// Routes Import
 import userRoutes from './routes/userRoutes.js'; 
 import restaurantRoute from './routes/restaurantRoute.js'; 
+import menuItemRoute from './routes/menuItemRoute.js';
 
+// Database
 import connectDB from './db/connectDB.js';
-
 
 dotenv.config();
 
@@ -28,7 +30,6 @@ cloudinary.config({
 // Middleware
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -39,13 +40,13 @@ app.use(cors({
     },
     credentials: true
 }));
-
 app.use(cookieParser());
 
 
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/restaurant', restaurantRoute);
+app.use('/api/menu-items', menuItemRoute);
 
 
 // Server Listen
