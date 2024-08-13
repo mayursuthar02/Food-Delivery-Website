@@ -45,6 +45,7 @@ const MenuItemCard = ({item}) => {
           }
           showToast("Success", "Menu item deleted", "success");
           fetchMenuItemsData();
+          onCloseAlert();
         } catch (error) {
           console.log(error);
           showToast("Error", error, "Error");

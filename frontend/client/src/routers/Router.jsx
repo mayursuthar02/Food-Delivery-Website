@@ -9,6 +9,9 @@ import UserOrder from "../pages/UserOrder";
 import UserProfile from "../pages/UserProfile";
 import ItemsDetailsPage from "../pages/ItemsDetailsPage";
 import RecipesPage from "../pages/RecipesPage";
+import SuccessPage from "../pages/SuccessPage";
+import CanclePage from "../pages/CanclePage";
+import RestaurantDetailsPage from "../pages/RestaurantDetailsPage";
 
 const Router = () => {
   return (
@@ -17,7 +20,11 @@ const Router = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign-up" element={<SignupPage />} />
       <Route path="/recipes" element={<RecipesPage />} />
-      <Route path="/burger/:id" element={<ItemsDetailsPage />} />
+      <Route path="/recipe/:category" element={<RecipesPage />} />
+      <Route path="/:name/:id" element={<ItemsDetailsPage />} />
+      <Route path="/payment-success" element={<SuccessPage />} />
+      <Route path="/payment-cancle" element={<CanclePage />} />
+      <Route path="/restaurant/:name/:id" element={<RestaurantDetailsPage />} />
 
       <Route path="/user/*" element={<UserSettingPage/>}>
         <Route path="profile" element={<UserProfile />} />

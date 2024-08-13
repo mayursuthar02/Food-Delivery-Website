@@ -126,3 +126,93 @@ export const deleteMenuItem = async(req,res) => {
         res.status(500).json({error: "Error in get delete menu item "+error.message});
     }
 }
+
+
+export const getAllItems = async(req, res) => {
+    try {
+        const allItems = await menuItemModel.find().sort({createdAt: -1});
+        
+        res.status(200).json(allItems);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in get all items "+error.message});
+    }
+}
+
+
+export const getItem = async(req, res) => {
+    try {
+        const {id} = req.params;
+        if (!id) {
+            return res.status(400).json({error: "Item Id not found"});
+        }
+
+        const item = await menuItemModel.findById(id).populate('restaurantId', 'restaurantName address email phone');
+        if (!item) {
+            return res.status(400).json({error: "Item not found"});
+        }
+
+        res.status(200).json(item);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in get item "+error.message});
+    }
+}
+
+
+export const getRestaurantItems = async(req,res) => {
+    try {
+        const {id} = req.params;
+        if(!id) {
+            return res.status(400).json({error: "Id not found"});
+        }
+
+        const restaurantItems = await menuItemModel.find({restaurantId: id});
+        if(!restaurantItems) {
+            return res.status(400).json({error: "items not found"});
+        }
+
+        res.status(200).json(restaurantItems);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in get item "+error.message});
+    }
+}
+
+
+export const getItemsCategories = async(req,res) => {
+    try {
+        const {id} = req.params;
+        if(!id) {
+            return res.status(400).json({error: "Id not found"});
+        }
+        
+        const categories = await menuItemModel.find({restaurantId: id}).distinct('category');
+        if (!categories) {
+            return res.status(400).json({error: "categories not found"});
+        }
+
+        res.status(200).json(categories);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error get item categories"+error.message});
+    }
+}
+
+
+export const getItemsByCategory = async(req,res) => {
+    try {
+        const {category} = req.params;
+        if (!category) {
+            return res.status(400).json({error: "Category not found"});
+        }
+
+        const items = await menuItemModel.find({category});
+        res.status(200).json(items);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error get items by category"+error.message});
+    }
+}

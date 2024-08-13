@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {Avatar, Box, Button, Divider, Flex, IconButton, Link, Menu, MenuButton, MenuList, Text} from '@chakra-ui/react';
+import {Avatar, Badge, Box, Button, Divider, Flex, IconButton, Link, Menu, MenuButton, MenuList, Text, useDisclosure} from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 
@@ -9,8 +9,10 @@ import { PiHeartStraight } from "react-icons/pi";
 import { LuUser2 } from "react-icons/lu";
 import { GiBeachBag } from "react-icons/gi";
 
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import userAtom from '../atoms/userAtom';
+import BucketDrawer from './BucketDrawer';
+import bucketAtom from '../atoms/bucketAtom';
 
 // Navbar Links
 const navLinks = [
@@ -23,11 +25,32 @@ const navLinks = [
 
 const Header = () => {
   const [user,setUser] = useRecoilState(userAtom);
-  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart } = useDisclosure();
+  const headerRef = useRef(null);
+  const bucketItems = useRecoilValue(bucketAtom);
+
+    // Sticky Header
+    const stickyHeaderFunc = () => {
+      window.addEventListener("scroll", () => {
+        if (
+          document.body.scrollTop > 80 ||
+          document.documentElement.scrollTop > 80
+        ) {
+          headerRef.current?.classList.add("sticky__header");
+        } else {
+          headerRef.current?.classList.remove("sticky__header");
+        }
+      });
+    };
+    useEffect(() => {
+      stickyHeaderFunc();
+      return window.removeEventListener("scroll", stickyHeaderFunc);
+    });
   
   return (
-    <header>  
-      <Flex alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #eee'} px={'40px'} py={'15px'}>
+    <header ref={headerRef}>  
+      <Flex bgColor={'white'} alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #eee'} px={'40px'} py={'15px'}>
         <Link to={'/'} as={RouterLink}>
           <Logo/>
         </Link>
@@ -47,7 +70,10 @@ const Header = () => {
               <IconButton icon={<PiHeartStraight size={'1.3rem'}/>} bgColor={"white"} _hover={{bgColor: "green.50"}} borderRadius={'full'}/>
             </Link>
             <Link>
-              <IconButton  icon={<GiBeachBag size={'1.3rem'}/>} bgColor={"white"} _hover={{bgColor: "green.50"}} borderRadius={'full'}/>
+              <Box position={'relative'} onClick={onOpenCart}>
+                <Badge variant='solid' bgColor={'green.500'} position={'absolute'} top={0} right={0} fontSize={'10px'} zIndex={1}>{bucketItems.length}</Badge>
+                <IconButton  icon={<GiBeachBag size={'1.3rem'}/>} bgColor={"white"} _hover={{bgColor: "green.50"}} borderRadius={'full'}/>
+              </Box>
             </Link>
 
             
@@ -85,6 +111,9 @@ const Header = () => {
             </Menu>
           </Flex>
         </Flex>
+
+        {/* Cart Drawer    */}
+        <BucketDrawer isOpenCart={isOpenCart} onCloseCart={onCloseCart}/>
       </Flex>
     </header>
   )

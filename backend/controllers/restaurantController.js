@@ -1,7 +1,9 @@
-import bcrypt from 'bcrypt';
+ 
+ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {v2 as cloudinary} from 'cloudinary';
 import restaurantModel from '../models/restaurantModel.js';
+import menuItemModel from '../models/menuItemModel.js';
 
 
 export const SignupUser = async(req, res) => {
@@ -105,7 +107,6 @@ export const UpdateRestaurantProfile = async(req,res) => {
     }
 }
 
-
 export const logout = async(req,res) => {
     try {
         res.cookie("restaurant-token", "", { maxAge: 1 });
@@ -113,5 +114,24 @@ export const logout = async(req,res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).json({error: "Error in logout"+error.message});
+    }
+}
+
+export const GetRestaurantData = async(req,res) => {
+    try {
+        const {id} = req.params;
+        if(!id) {
+            return res.status(400).json({error: "Id not found"});
+        }
+        
+        const restaurantData = await restaurantModel.findById(id).select('-password');
+        if (!restaurantData) {
+            return res.status(400).json({error: "Data not found"});
+        }
+        res.status(200).json(restaurantData);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error get restaurant data"+error.message});
     }
 }

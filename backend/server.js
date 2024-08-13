@@ -8,6 +8,10 @@ import {v2 as cloudinary} from 'cloudinary';
 import userRoutes from './routes/userRoutes.js'; 
 import restaurantRoute from './routes/restaurantRoute.js'; 
 import menuItemRoute from './routes/menuItemRoute.js';
+import bucketRoute from './routes/bucketRoute.js';
+import paymentRoute from './routes/paymentRoute.js';
+import orderRoute from './routes/orderRoute.js';
+import reviewRoutes from './routes/reviewRoutes.js';
 
 // Database
 import connectDB from './db/connectDB.js';
@@ -47,6 +51,10 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/restaurant', restaurantRoute);
 app.use('/api/menu-items', menuItemRoute);
+app.use('/api/buckets', bucketRoute);
+app.use('/api/payments', paymentRoute);
+app.use('/api/orders', orderRoute);
+app.use('/api/reviews', reviewRoutes);
 
 
 // Server Listen
