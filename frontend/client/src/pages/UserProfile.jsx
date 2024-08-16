@@ -10,8 +10,6 @@ import {
   AvatarBadge,
   Button,
   IconButton,
-  Grid,
-  Flex,
   Text,
   Divider,
 } from "@chakra-ui/react";
@@ -30,7 +28,13 @@ const UserProfile = () => {
 
   const [fullName, setFullName] = useState(user.fullName);
   const [email, setEmail] = useState(user.email);
-  const [address, setAddress] = useState(user.address);
+  const [address, setAddress] = useState({
+    street: user.address.street, 
+    city: user.address.city, 
+    state: user.address.state, 
+    zipCode: user.address.zipCode, 
+    country: user.address.country
+  });
   const [phone, setPhone] = useState(user.phone);
   const [loading, setLoading] = useState(false);
 
@@ -40,28 +44,30 @@ const UserProfile = () => {
   const showToast = useShowToast();
 
   // Handle update
-  // const handleUpdate = async() => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await fetch('/api/users/update-profile', {
-  //       method: "PUT",
-  //       headers: {"Content-Type":"application/json"},
-  //       body: JSON.stringify({fullName, businessName, brandName, email, address, phone, profilePic: imgUrl})
-  //     });
-  //     const data = await res.json();
-  //     if (data.error) {
-  //       showToast('Error', data.error, "error");
-  //       return;
-  //     }
-  //     showToast('Success', "Profile updated", "success");
-  //     localStorage.setItem('user-details', JSON.stringify(data));
-  //     setUser(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     showToast('Error', error.message, "error");
-  //     console.log(error.message);
-  //   }
-  // }
+  const handleUpdate = async() => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/users/update', {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({fullName, email, address, phone, profilePic: imgUrl})
+      });
+      const data = await res.json();
+      if (data.error) {
+        showToast('Error', data.error, "error");
+        return;
+      }
+      showToast('Success', "Profile updated", "success");
+      localStorage.setItem('user-details', JSON.stringify(data));
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      showToast('Error', error.message, "error");
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
   
   
   return (
@@ -121,36 +127,36 @@ const UserProfile = () => {
         <Box gridColumn={'1/3'}>
           <FormControl id="fullName">
             <FormLabel>Street</FormLabel>
-            <Input type="text" value={fullName} onChange={e => setFullName(e.target.value)}/>
+            <Input type="text" value={address.street} onChange={e => setAddress(data => ({ ...data, street: e.target.value }))} />
           </FormControl>
         </Box>
         <Box gridColumn={'1/2'}>
           <FormControl id="email">
             <FormLabel>City</FormLabel>
-            <Input type="text" value={email} onChange={e => setEmail(e.target.value)}/>
+            <Input type="text" value={address.city} onChange={e => setAddress(data => ({ ...data, city: e.target.value }))}/>
           </FormControl>
         </Box>
         <Box gridColumn={'2/3'}>
           <FormControl id="phoneNumber">
             <FormLabel>State</FormLabel>
-            <Input type="text" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Ex. +91 9328077809"/>
+            <Input type="text" value={address.state} onChange={e => setAddress(data => ({ ...data, state: e.target.value }))}/>
           </FormControl>
         </Box>
         <Box gridColumn={'1/2'}>
           <FormControl id="email">
             <FormLabel>Zip Code</FormLabel>
-            <Input type="text" value={email} onChange={e => setEmail(e.target.value)}/>
+            <Input type="text" value={address.zipCode} onChange={e => setAddress(data => ({ ...data, zipCode: e.target.value }))}/>
           </FormControl>
         </Box>
         <Box gridColumn={'2/3'}>
           <FormControl id="phoneNumber">
             <FormLabel>Country</FormLabel>
-            <Input type="text" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Ex. +91 9328077809"/>
+            <Input type="text" value={address.country} onChange={e => setAddress(data => ({ ...data, country: e.target.value }))}/>
           </FormControl>
         </Box>
       </Box>
 
-      <Button colorScheme="green" fontWeight={'500'} display={'flex'} alignItems={'center'} gap={2} mt={20} mb={5} isLoading={loading} loadingText="Updating">
+      <Button colorScheme="green" fontWeight={'500'} display={'flex'} alignItems={'center'} gap={2} mt={20} mb={5} isLoading={loading} loadingText="Updating" onClick={handleUpdate}>
         <FiEdit size={'18px'}/>
         Update Profile
       </Button>

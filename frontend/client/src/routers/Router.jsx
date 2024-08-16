@@ -12,6 +12,7 @@ import RecipesPage from "../pages/RecipesPage";
 import SuccessPage from "../pages/SuccessPage";
 import CanclePage from "../pages/CanclePage";
 import RestaurantDetailsPage from "../pages/RestaurantDetailsPage";
+import SearchPage from "../pages/SearchPage";
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
       <Route path="/payment-success" element={<SuccessPage />} />
       <Route path="/payment-cancle" element={<CanclePage />} />
       <Route path="/restaurant/:name/:id" element={<RestaurantDetailsPage />} />
+      <Route path='/search' element={<SearchPage/>}/>
 
       <Route path="/user/*" element={<UserSettingPage/>}>
         <Route path="profile" element={<UserProfile />} />

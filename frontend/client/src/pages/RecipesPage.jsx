@@ -64,7 +64,7 @@ const RecipesPage = () => {
     } else {
       fetchItemsByCategory();
     }
-  }, [])
+  }, [category])
   
   
   return (

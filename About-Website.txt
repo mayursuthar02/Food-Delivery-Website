@@ -19,8 +19,63 @@ MealSprint | Food Delivery Website
 - Stripe   // For payment Intigration
 - React Icon   // For Icons
 - Recoil    //For state manage
+- Js-Cookie  // This package use for cookie to get cookie in frontend
 
 + Cloudinary API : // for image uploading
+
+
+---------------------------------------
+* Frontend Features
+--------------------------------------- 
+- The frontend is devided into 2 parts (i) Client Side and (ii) Restaurant Side.
+
+i. Client side
+--------------------------------------- 
+- The client side contain 11 pages 
+    1. Home Page
+    2. Recipes Page
+    3. About Page
+    4. Contact us Page
+    5. Login Page
+    6. Signup Page
+    7. Search Result Page
+    8. My profile Page
+    9. My Order Page
+    10. Food Details
+    11. Restaurant Page
+
++ Features :
+1. Signup User
+2. Login User
+3. Edit profile
+4. Search Food
+5. Add in bucket
+6. Buy Food
+7. Comment on Food
+more...
+
+
+
+i. Restaurant side
+--------------------------------------- 
+- The Restaurant side contain 6 pages 
+    1. Login Page
+    2. Signup Page
+    3. Profile Page
+    4. Menus Page
+    5. Orders Page
+    6. Reviews Page
+
++ Features :
+1. Signup User
+2. Login User
+3. Edit profile
+4. Add items
+5. Edit items
+6. Delete items
+7. Update Order status
+more...
+
 
 
 
@@ -40,39 +95,68 @@ MealSprint | Food Delivery Website
 - Cookie-Parser
 - Body Parser
 
++ Main file is "server.js"
 
-+ MongoDB Models :
------------------------
+---------------------------------------
+Backend APIs
+--------------------------------------- 
 
-[ User ] : 
-    - fullName
-    - email
-    - password
-    - profilePic
-    - Role || Default - General
-    - Address
-    - Phone No
-    - favourite
-    - opt
-    - otpExpireDate
+1. User APIs  //   "/api/users"
+--------------------------------------- 
+- router.post('/signup', SignupUser);
+- router.post('/login', loginUser);
+- router.post('/logout', protectRoute, logout);
+- router.put('/update', protectRoute, updateUserProfile);
 
 
-[ Food ] :
+2. Restaurant APIs  //   "/api/restaurant"
+--------------------------------------- 
+- router.post('/signup', SignupUser);
+- router.post('/login', loginUser);
+- router.put('/update-restaurant-profile', RestaurantProtectedRoute, UpdateRestaurantProfile);
+- router.post('/logout', RestaurantProtectedRoute, logout);
 
 
-[ Bucket ] :
-    - FoodId
-    - userId
-    - quantity
-    - price
-    - discount 
-
-[ Order ] :
-
+3. Cart (Bucket) APIs  //   "/api/buckets"
+--------------------------------------- 
+- router.post('/add-to-bucket', protectRoute, addToBucket);
+- router.get('/get-bucket-items', protectRoute, getBucketItems);
+- router.put('/update-quantity', protectRoute, updateQuantity);
+- router.delete('/delete-bucket-item', protectRoute, DeleteBucketItem);
+- router.delete('/delete-user-bucket-items', protectRoute, DeleteUserBuckets);
 
 
-[ Reviews ] :
-    - userId
-    - FoodId
-    - Rating
-    - Text
+4. MenuItem APIs  //   "/api/menu-items"
+--------------------------------------- 
+// Restaurant Side
+- router.post('/upload-items', RestaurantProtectedRoute, uploadMenuItem);
+- router.get('/get-menu-items', RestaurantProtectedRoute, getMenuItems);
+- router.put('/update-item/:id', RestaurantProtectedRoute, updateMenuItem);
+- router.delete('/delete-item/:id', RestaurantProtectedRoute, deleteMenuItem);
+
+// Client Side
+- router.get('/get-all-items', getAllItems);
+- router.get('/get-item/:id', getItem);
+- router.get('/get-restaurant-item/:id', getRestaurantItems);
+- router.get('/get-item-categories/:id', getItemsCategories);
+- router.get('/get-item-by-category/:category', getItemsByCategory);
+- router.get('/v1/search/:query', searchItemsV1);
+- router.get('/v2/search', searchItemsV2);
+
+
+5. Ordes APIs  //   "/api/orders"
+--------------------------------------- 
+- router.get('/get-orders', protectRoute, GetAllUserOrders)
+
+
+6. Payment APIs  //   "/api/payments"
+--------------------------------------- 
+- router.post('/stripe/checkout', protectRoute, stripeCheckout);
+
+
+7. Reviews APIs  //   "/api/reviews"
+--------------------------------------- 
+- router.post('/create', protectRoute, createReview);
+- router.get('/by-item/:itemId', getItemReview);
+- router.get('/get-restaurant-items-reviews',RestaurantProtectedRoute, getRestaurantItemsReviews);
+- router.post('/delete',RestaurantProtectedRoute, deleteReview);

@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+import {v2 as cloudinary} from 'cloudinary';
 
 export const SignupUser = async(req, res) => {
     try {
@@ -66,5 +66,49 @@ export const loginUser = async(req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).json({error: "Error in login user "+error.message});
+    }
+}
+
+export const logout = async(req,res) => {
+    try {
+        res.cookie("token", "", { maxAge: 1 });
+        res.status(200).json({message: "User logged out."});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in logout"+error.message});
+    }
+}
+
+export const updateUserProfile = async(req,res) => {
+    try {
+        const {fullName, email, address, phone} = req.body;
+        let {profilePic} = req.body;
+        const userId = req.user._id;
+        
+        const user = await userModel.findById(userId);
+        if(!user) return res.status(400).json({error: "User not found"});
+        if (profilePic) {
+            if (user.profilePic) {
+                await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+            }
+            const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+            profilePic = uploadedResponse.secure_url;
+        }
+
+        // // Update Restaurant
+        user.fullName = fullName || user.fullName;
+        user.email = email || user.email;
+        user.profilePic = profilePic || user.profilePic;
+        user.address = address || user.address;
+        user.phone = phone || user.phone;
+
+        await user.save();
+
+        // // Password should be null in response
+        user.password = null;
+        res.status(200).json(user);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Error in update user "+error.message});
     }
 }

@@ -13,6 +13,8 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import userAtom from '../atoms/userAtom';
 import BucketDrawer from './BucketDrawer';
 import bucketAtom from '../atoms/bucketAtom';
+import useShowToast from '../hooks/useShowToast';
+import SearchModel from './SearchModel';
 
 // Navbar Links
 const navLinks = [
@@ -28,7 +30,9 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart } = useDisclosure();
   const headerRef = useRef(null);
+  const showToast = useShowToast();
   const bucketItems = useRecoilValue(bucketAtom);
+  const navigate = useNavigate();
 
     // Sticky Header
     const stickyHeaderFunc = () => {
@@ -48,6 +52,29 @@ const Header = () => {
       return window.removeEventListener("scroll", stickyHeaderFunc);
     });
   
+    // Handle Logout
+  const handleLogout = async() => {
+    try {
+      const res = await fetch('/api/users/logout', {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        showToast('Error', data.error, "error");
+        return;
+      }
+      console.log(data);
+      showToast('Success', "Logged out", "success");
+      localStorage.removeItem('user-details');
+      setUser(null);
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <header ref={headerRef}>  
       <Flex bgColor={'white'} alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #eee'} px={'40px'} py={'15px'}>
@@ -63,11 +90,8 @@ const Header = () => {
 
         <Flex align={'center'} gap={2}>
           <Flex align={'center'} gap={2}>
-            <Link>
+            <Link onClick={onOpen}>
               <IconButton icon={<HiOutlineSearch size={'1.3rem'}/>} bgColor={"white"} _hover={{bgColor: "green.50"}} borderRadius={'full'}/>
-            </Link>
-            <Link>
-              <IconButton icon={<PiHeartStraight size={'1.3rem'}/>} bgColor={"white"} _hover={{bgColor: "green.50"}} borderRadius={'full'}/>
             </Link>
             <Link>
               <Box position={'relative'} onClick={onOpenCart}>
@@ -105,7 +129,7 @@ const Header = () => {
 
                   {user && <Divider mb={2}/>}
 
-                  {user && <Button w={'full'} colorScheme='gray'>Logout</Button>}
+                  {user && <Button w={'full'} colorScheme='gray' onClick={handleLogout}>Logout</Button>}
                 </Flex>
               </MenuList>
             </Menu>
@@ -114,6 +138,9 @@ const Header = () => {
 
         {/* Cart Drawer    */}
         <BucketDrawer isOpenCart={isOpenCart} onCloseCart={onCloseCart}/>
+
+        {/* Search Model */}
+        <SearchModel isOpen={isOpen} onClose={onClose}/>
       </Flex>
     </header>
   )

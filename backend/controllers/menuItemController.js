@@ -216,3 +216,46 @@ export const getItemsByCategory = async(req,res) => {
         res.status(500).json({error: "Error get items by category"+error.message});
     }
 }
+
+
+export const searchItemsV1 = async(req,res) => {
+    try {
+        // const query = req.query.q;
+        const {query} = req.params;
+
+        const regex = new RegExp(query, 'i');
+
+        const items = await menuItemModel.find({
+            "$or" : [
+                {itemName: regex},
+                {category: regex},
+            ]
+        });
+
+        res.status(200).json(items);
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: "Error in search items " + error.message });
+    }
+}
+
+export const searchItemsV2 = async(req,res) => {
+    try {
+        const query = req.query.q;        
+        const regex = new RegExp(query, 'i');
+
+        const items = await menuItemModel.find({
+            "$or" : [
+                {itemName: regex},
+                {category: regex},
+            ]
+        });
+
+        res.status(200).json(items);
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: "Error in search items " + error.message });
+    }
+}
