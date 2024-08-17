@@ -14,6 +14,7 @@ const FetchBucketItems = () => {
         showToast("Error", data.error, "error");
         return;
       }
+      console.log(data);
       setBucketItems(data);
     } catch (error) {
       console.log(error);
