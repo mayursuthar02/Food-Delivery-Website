@@ -19,10 +19,10 @@ import Logo from './Logo';
 
 const Footer = () => {  
   const footerLink1 = [
-    {title: "Men", path: '/men'},
-    {title: "Women", path: '/women'},
-    {title: "Accessories", path: '/accessories'},
-    {title: "Beauty", path: '/beauty'},
+    {title: "Home", path: '/'},
+    {title: "Recipes", path: '/recipes'},
+    {title: "Burger", path: ''},
+    {title: "Sweets", path: ''},
   ];
   
   const footerLink2 = [
@@ -49,7 +49,7 @@ const Footer = () => {
     {title: "India, Gujarat, Surat-395010", icon: <GrLocation fontSize={'17px'}/>},
     {title: "+91 38(050) 12 34 567", icon: <BsTelephone fontSize={'17px'}/>},
     {title: "All weak 24/7", icon: <LuClock5 fontSize={'17px'}/>},
-    {title: "fashionfusion@gmail.com", icon: <HiOutlineMail fontSize={'17px'}/>}
+    {title: "mealsprint@gmail.com", icon: <HiOutlineMail fontSize={'17px'}/>}
   ];
 
   return (

@@ -50,7 +50,7 @@ const Header = () => {
         </Link>
 
           <Flex align={'center'} gap={2}>            
-            <Text>Contact : @mealsprint@gmail.com</Text>
+            <Text>Contact : mealsprint@gmail.com</Text>
 
             <Menu>
               <MenuButton bgColor={'white'} _hover={{bgColor: 'green.100'}} borderRadius={'full'}>
