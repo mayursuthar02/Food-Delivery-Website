@@ -47,7 +47,7 @@ i. Client side
 + Features :
 1. Signup User
 2. Login User
-3. Edit profile
+3.  Edit profile, 
 4. Search Food
 5. Add in bucket
 6. Buy Food

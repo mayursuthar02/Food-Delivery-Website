@@ -14,7 +14,7 @@ const FoodCategories = () => {
             <Divider borderColor={'gray.200'}/>
         </Flex>
         <Box overflow={'scroll'} className='hide-scroll'>        
-            <Grid templateColumns={`repeat(${categoryList.length /2},1fr)`} gap={1}>
+            <Grid templateColumns={`repeat(${Math.floor(categoryList.length /2)}, 1fr)`} gap={1} >
                 {categoryList.map((item,i) => (
                     <Link key={i} to={`/recipe/${item.value}`} display={'flex'} flexDir={'column'} alignItems={'center'} justifyContent={'center'} gap={2} as={RouterLink} border={'1px solid'} minW={'130px'} minH={'130px'} borderColor={'white'} _hover={{borderColor: 'gray.50', bgColor: 'gray.50'}} borderRadius={'md'}>
                         <Box w={'100px'} h={'100px'} overflow={'visible'}>

@@ -20,8 +20,8 @@ import SearchModel from './SearchModel';
 const navLinks = [
   {label: "Home", path: '/'},
   {label: "Recipes", path: '/recipes'},
-  {label: "Contact", path: '/'},
-  {label: "About Us", path: '/'},
+  {label: "Contact", path: '/contact-us'},
+  {label: "About Us", path: '/about-us'},
 ]
 
 

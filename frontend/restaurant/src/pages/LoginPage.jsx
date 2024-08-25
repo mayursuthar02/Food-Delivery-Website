@@ -114,7 +114,7 @@ const LoginPage = () => {
           <Stack pt={6}>
               <Text align={"center"}>
                 Don't have an account?{" "}
-                <Link as={RouterLink} to={"/sign-up"} color={"green.400"}>
+                <Link as={RouterLink} to={"/"} color={"green.400"}>
                   Signup
                 </Link>
               </Text>
